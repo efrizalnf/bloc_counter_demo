@@ -26,6 +26,8 @@ class CounterState extends Equatable {
 
   CounterState copyWith({
     int? counter,
+    CounterStatus? counterStatus,
+    String? error,
   }) {
     return CounterState(
       counter: counter ?? this.counter,
@@ -36,7 +38,7 @@ class CounterState extends Equatable {
 
   @override
   String toString() =>
-      'CounterState(counter: $counter, counterState : $counterStatus, error : $error)';
+      'CounterState(counter: $counter, counterStatus: $counterStatus, error: $error)';
 }
 
 // class CounterInitial extends CounterState {

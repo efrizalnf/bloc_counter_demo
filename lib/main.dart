@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<CounterBloc>(
       create: (context) => CounterBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'You have pushed the button this many times:',
               ),
               Text(
-                '$_counter',
+                '${BlocProvider.of<CounterBloc>(context, listen: true).state.counter}',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ],
@@ -69,7 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: () {
+                BlocProvider.of<CounterBloc>(context)
+                    .add(CounterIncrementEvent());
+              },
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
@@ -77,7 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 10,
             ),
             FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: () {
+                BlocProvider.of<CounterBloc>(context)
+                    .add(CounterDecrementEvent());
+              },
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),
             ),
