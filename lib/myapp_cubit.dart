@@ -1,4 +1,5 @@
 import 'package:bloc_demo/cubit/counter_cubit_cubit.dart';
+import 'package:bloc_demo/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,25 +30,49 @@ class _MyAppCubitState extends State<MyAppCubit> {
 
     return Scaffold(
         body: Center(
-          child: BlocBuilder<CounterCubitCubit, CounterCubitState>(
-            buildWhen: initStatus(),
+          //BlockCunsumer has listener and Build property, if you need listener only use BlocListener
+          child: BlocConsumer<CounterCubitCubit, CounterCubitState>(
+            listener: (context, state) {
+              //jika nilai counter == 3
+              if (state.counter == 3) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text('Nilai counter = ${state.counter}'),
+                      );
+                    });
+              } else if (state.counter == -1) {
+                // jika nilai counter == -1
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DetailScreen(),
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               print(CounterCubitState.initial() == CounterCubitStatus.success);
               print('===run cubit===');
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'You have pushed the button this many times:',
-                    ),
-                    Text(
-                      '${state.counter}',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-              );
+              return state.counterStatus == CounterCubitStatus.loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'You have pushed the button this many times:',
+                          ),
+                          Text(
+                            '${state.counter}',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ],
+                      ),
+                    );
             },
           ),
         ),
@@ -65,6 +90,7 @@ class _MyAppCubitState extends State<MyAppCubit> {
               width: 10,
             ),
             FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 BlocProvider.of<CounterCubitCubit>(context).decrement();
               },
