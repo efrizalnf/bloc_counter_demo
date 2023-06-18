@@ -1,3 +1,4 @@
+import 'package:bloc_demo/cubit/counter_cubit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,23 +16,31 @@ class MyAppCubit extends StatefulWidget {
 class _MyAppCubitState extends State<MyAppCubit> {
   @override
   Widget build(BuildContext context) {
+    print('===run build===');
     return Scaffold(
-        appBar: AppBar(
-          // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-        ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '${BlocProvider.of<CounterBloc>(context, listen: true).state.counter}',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
+          child: BlocBuilder<CounterCubitCubit, CounterCubitState>(
+            builder: (context, state) {
+              print('===run cubit===');
+              return Center(
+                child: state.counterStatus == Status.loading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'You have pushed the button this many times:',
+                          ),
+                          Text(
+                            '${state.counter}',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ],
+                      ),
+              );
+            },
           ),
         ),
         floatingActionButton: Row(
@@ -39,8 +48,7 @@ class _MyAppCubitState extends State<MyAppCubit> {
           children: [
             FloatingActionButton(
               onPressed: () {
-                BlocProvider.of<CounterBloc>(context)
-                    .add(CounterIncrementEvent());
+                BlocProvider.of<CounterCubitCubit>(context).increment();
               },
               tooltip: 'Increment',
               child: const Icon(Icons.add),
@@ -50,8 +58,7 @@ class _MyAppCubitState extends State<MyAppCubit> {
             ),
             FloatingActionButton(
               onPressed: () {
-                BlocProvider.of<CounterBloc>(context)
-                    .add(CounterDecrementEvent());
+                BlocProvider.of<CounterCubitCubit>(context).decrement();
               },
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),

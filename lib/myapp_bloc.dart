@@ -15,6 +15,7 @@ class MyAppBloc extends StatefulWidget {
 class _MyAppBlocState extends State<MyAppBloc> {
   @override
   Widget build(BuildContext context) {
+    print('===build method run====');
     final counterState =
         BlocProvider.of<CounterBloc>(context, listen: true).state;
     Widget body = Center(
@@ -53,6 +54,7 @@ class _MyAppBlocState extends State<MyAppBloc> {
               onPressed: () {
                 BlocProvider.of<CounterBloc>(context)
                     .add(CounterIncrementEvent());
+                print('===bloc run====');
               },
               tooltip: 'Increment',
               child: const Icon(Icons.add),
