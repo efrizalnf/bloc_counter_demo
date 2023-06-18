@@ -81,7 +81,7 @@ class _MyAppCubitState extends State<MyAppCubit> {
           children: [
             FloatingActionButton(
               onPressed: () {
-                BlocProvider.of<CounterCubitCubit>(context).increment();
+                context.read<CounterCubitCubit>().increment();
               },
               tooltip: 'Increment',
               child: const Icon(Icons.add),
@@ -92,7 +92,7 @@ class _MyAppCubitState extends State<MyAppCubit> {
             FloatingActionButton(
               heroTag: null,
               onPressed: () {
-                BlocProvider.of<CounterCubitCubit>(context).decrement();
+                context.read<CounterCubitCubit>().decrement();
               },
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),
