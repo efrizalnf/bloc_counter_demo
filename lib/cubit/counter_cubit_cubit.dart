@@ -8,26 +8,26 @@ class CounterCubitCubit extends Cubit<CounterCubitState> {
 
   increment() async {
     emit(state.copyWith(
-      counterStatus: Status.loading,
+      counterStatus: CounterCubitStatus.loading,
     ));
     await Future.delayed(const Duration(seconds: 2));
     emit(
       state.copyWith(
         counter: state.counter + 1,
-        counterStatus: Status.success,
+        counterStatus: CounterCubitStatus.success,
       ),
     );
   }
 
   decrement() async {
     emit(state.copyWith(
-      counterStatus: Status.loading,
+      counterStatus: CounterCubitStatus.loading,
     ));
     await Future.delayed(const Duration(seconds: 2));
     emit(
       state.copyWith(
         counter: state.counter - 1,
-        counterStatus: Status.success,
+        counterStatus: CounterCubitStatus.success,
       ),
     );
   }

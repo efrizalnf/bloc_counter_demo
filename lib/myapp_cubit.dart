@@ -17,28 +17,36 @@ class _MyAppCubitState extends State<MyAppCubit> {
   @override
   Widget build(BuildContext context) {
     print('===run build===');
+    initStatus() {
+      print(CounterCubitState.initial() == CounterCubitStatus.success);
+      CounterCubitState.initial() == CounterCubitStatus.success;
+      // if (CounterState.initial() == CounterStatus.loading) {
+      //   return const Center(
+      //     child: CircularProgressIndicator(),
+      //   );
+      // }
+    }
+
     return Scaffold(
         body: Center(
           child: BlocBuilder<CounterCubitCubit, CounterCubitState>(
+            buildWhen: initStatus(),
             builder: (context, state) {
+              print(CounterCubitState.initial() == CounterCubitStatus.success);
               print('===run cubit===');
               return Center(
-                child: state.counterStatus == Status.loading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text(
-                            'You have pushed the button this many times:',
-                          ),
-                          Text(
-                            '${state.counter}',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                        ],
-                      ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text(
+                      'You have pushed the button this many times:',
+                    ),
+                    Text(
+                      '${state.counter}',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
               );
             },
           ),

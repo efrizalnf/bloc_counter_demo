@@ -1,6 +1,6 @@
 part of 'counter_cubit_cubit.dart';
 
-enum Status { initial, loading, success, error }
+enum CounterCubitStatus { initial, loading, success, error }
 
 class CounterCubitState extends Equatable {
   const CounterCubitState({
@@ -10,12 +10,12 @@ class CounterCubitState extends Equatable {
   });
   factory CounterCubitState.initial() => const CounterCubitState(
         counter: 0,
-        counterStatus: Status.initial,
+        counterStatus: CounterCubitStatus.initial,
         errorMessage: '',
       );
 
   final int counter;
-  final Status counterStatus;
+  final CounterCubitStatus counterStatus;
   final String errorMessage;
 
   @override
@@ -27,7 +27,7 @@ class CounterCubitState extends Equatable {
 
   CounterCubitState copyWith({
     int? counter,
-    Status? counterStatus,
+    CounterCubitStatus? counterStatus,
     String? errorMessage,
   }) {
     return CounterCubitState(
